@@ -1,0 +1,25 @@
+Чтение записей телефонной книги SIM-карты с помощью модуля SIM800L на языке C++
+
+#include <SoftwareSerial.h>
+
+SoftwareSerial sim800l(10, 11); // RX, TX
+
+void setup() {
+  Serial.begin(9600);
+  sim800l.begin(9600);
+
+  // Отправка команды для установления соединения с SIM-картой
+  sim800l.println("AT+CPIN=1234"); // 1234 - ПИН-код SIM-карты
+
+  // Отправка команды для запроса записей телефонной книги SIM-карты
+  sim800l.println("AT+CPBR=1,99");
+
+  // Чтение ответа от SIM-карты
+  while (sim800l.available()) {
+    Serial.write(sim800l.read());
+  }
+}
+
+void loop() {
+  // Оставляем пустой цикл
+}
